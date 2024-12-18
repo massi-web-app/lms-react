@@ -10,7 +10,6 @@ const generateDarkenColorFrom = (input: string, percentage = 0.07): string => co
 const generateForegroundColorFrom = (input: string, percentage = 0.8): string => colord(input).mix(colord(input).isDark() ? 'white' : 'block', percentage).toHex();
 
 
-
 export const tailwindColors: { [key: string]: string } = {
     current: "currentColor",
     transparent: "transparent",
@@ -52,8 +51,11 @@ export default {
         "./src/app/**/*.{tsx,jsx}",
     ],
     theme: {
-        colors:tailwindColors,
-        extend: {},
+        colors: tailwindColors,
+        container: {
+            center: true
+        }
     },
+    darkMode: "class",
     plugins: [],
 } satisfies Config;
