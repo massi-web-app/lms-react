@@ -1,12 +1,17 @@
 import type {Config} from "tailwindcss";
-import {colord} from "colord";
+import {colord, extend} from "colord";
+import mixPlugin from 'colord/plugins/mix';
+
+
+extend([mixPlugin]);
 
 const generateDarkenColorFrom = (input: string, percentage = 0.07): string => colord(input).darken(percentage).toHex();
 
-const generateForegroundColorFrom=()
+const generateForegroundColorFrom = (input: string, percentage = 0.8): string => colord(input).mix(colord(input).isDark() ? 'white' : 'block', percentage).toHex();
 
 
-const tailwind: { [key: string]: string } = {
+
+export const tailwindColors: { [key: string]: string } = {
     current: "currentColor",
     transparent: "transparent",
     white: "#F9F9F9",
@@ -44,9 +49,10 @@ const tailwind: { [key: string]: string } = {
 
 export default {
     content: [
-        "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+        "./src/app/**/*.{tsx,jsx}",
     ],
     theme: {
+        colors:tailwindColors,
         extend: {},
     },
     plugins: [],
