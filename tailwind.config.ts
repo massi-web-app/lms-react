@@ -48,7 +48,8 @@ export const tailwindColors: { [key: string]: string } = {
 
 export default {
     content: [
-        "./src/app/**/*.{tsx,jsx}",
+        "./src/app/**/*.{html,tsx,jsx}",
+        "./src/**/*.{html,tsx,jsx}",
     ],
     theme: {
         colors: tailwindColors,

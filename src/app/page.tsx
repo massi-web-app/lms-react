@@ -13,6 +13,10 @@ export default function Home() {
                             هرجای برنامه نویسی که باشی ، باهم راهی استاد های با تجربه ما میتونی بدون محدودیت به قله های
                             بالاتر صعود کنی ما همیشه هواتو داریم
                         </p>
+                        <div className="mt-5 flex gap-4">
+                            <Button variant="primary" size="large">دوره های ری اکت و نکست</Button>
+                            <Button variant="neutral" size="large">مشاوره برنامه نویسی</Button>
+                        </div>
                         <Image className="grayscale mt-4 opacity-70 m-auto xl:m-0" src="/images/frameworks.png"
                                width={412} height={39} alt="frameworks"/>
                     </div>
@@ -20,7 +24,6 @@ export default function Home() {
                 </div>
             </section>
             <div className="container">
-                    <Button variant={"info"} size="large" shape="wide" animatedIcon={true}>ثبت نام</Button>
             </div>
         </>
     );

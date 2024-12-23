@@ -1,7 +1,8 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
+@import '../tailwind/components/component.css';
 
 html {
     font-family: var(--font-yekanbakh);
@@ -13,4 +14,4 @@ html {
 
 .gradient{
     @apply bg-gradient-to-r   from-gradient-first to-gradient-second text-transparent bg-clip-text
-}
+ }
