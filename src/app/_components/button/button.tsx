@@ -2,6 +2,7 @@ import React from "react";
 import {Size} from '../types/size.type'
 import {ButtonProps, ButtonShape} from "@/app/_components/button/button.type";
 import classNames from 'classnames';
+import {Loading} from "@/app/_components/loading";
 
 const sizeClasses: Record<Size, string> = {
     tiny: "btn-xs",
@@ -48,6 +49,7 @@ export const Button: React.FC<ButtonProps> = ({
 
     return (
         <button type={type} disabled={isDisabled} {...rest} className={classes}>
+            {isLoading && <Loading type={loadingType}/>}
             {
                 isLoading ? loadingText : children
             }
