@@ -7,7 +7,7 @@ export default function Home() {
                 <div className="container flex flex-col-reverse items-center xl:flex-row">
                     <div className="flex flex-col gap-5 mt-12 pb-5 text-center xl:text-right">
                         <h3 className="text-xl dark:text-info xl:text-2xl">خوش آمدید</h3>
-                        <h1 className="text-3xl font-black gradient lg:text-5xl xl:text-5xl">مسیر صعود به فله های برنامه
+                        <h1 className="text-3xl font-black gradient lg:text-5xl xl:text-5xl">مسیر صعود به قله های برنامه
                             نویسی</h1>
                         <p>
                             هرجای برنامه نویسی که باشی ، باهم راهی استاد های با تجربه ما میتونی بدون محدودیت به قله های

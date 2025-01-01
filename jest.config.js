@@ -5,7 +5,6 @@ const createJestConfig = nextJest({
     dir: "./"
 })
 
-
 /**
  *
  * @type {import('jest').Config}
