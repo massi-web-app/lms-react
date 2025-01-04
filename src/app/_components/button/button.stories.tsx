@@ -1,5 +1,8 @@
 import {Meta, StoryObj} from '@storybook/react';
 import {Button} from './button'
+import results from "../../../../.jest-test-results.json";
+import {withTests} from '@storybook/addon-jest';
+
 
 const meta: Meta<typeof Button> = {
     component: Button,
@@ -15,6 +18,39 @@ const meta: Meta<typeof Button> = {
 export default meta;
 
 type Story = StoryObj<typeof Button>;
+
+
+
+export const Tests:Story={
+    args: {
+        shape: "default",
+        loadingType: "ring",
+        loadingText: "Test",
+        isLoading: true,
+        size: "small",
+        variant: "error",
+        type: {},
+        isDisabled: false,
+        isLink: false,
+        isOutline: true,
+        className: "",
+        animatedIcon: false
+    },
+
+    render:(args)=>(
+        <Button {...args}>
+            Click Here
+        </Button>
+    )
+}
+
+
+Tests.decorators=[
+    withTests({results})
+];
+
+
+
 
 
 export const BrandColors: Story = {
