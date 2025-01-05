@@ -2,6 +2,7 @@ import {CourseSummeryInterface} from "@/types/course-summery.interface";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import {Badge} from "@/app/_components/badge";
 
 export type CourseCardProps = CourseSummeryInterface & {}
 
@@ -23,12 +24,17 @@ export const CourseCard: React.FC<CourseCardProps> = ({
                        height={327}/>
             </figure>
             <div className={"mt-2 flex gap-2 font-semibold dark:text-info px-3 py-2"}>
-                {
-                    recordStatus
-                }
-                {
-                    level
-                }
+                <Badge variant="info">
+                    {
+                        recordStatus
+                    }
+                </Badge>
+                <Badge variant="accent">
+                    {
+                        level
+                    }
+                </Badge>
+
             </div>
             <div className={"card-body"}>
                 <Link href={`/course/${slug}`}>
@@ -38,12 +44,12 @@ export const CourseCard: React.FC<CourseCardProps> = ({
                     {subTitle}
                 </p>
                 <div>
-                    {
-                        duration
-                    }
-                    {
-                        basePrice
-                    }
+                    <Badge variant="warning">
+                        {
+                            duration
+                        }
+                    </Badge>
+                    {basePrice }
                 </div>
             </div>
             <Link href={`course/${slug}`} className="card-footer justify-center">
