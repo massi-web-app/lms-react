@@ -15,8 +15,8 @@ const sizeClasses: Record<Size, { textSize: string; svgSize: number }> = {
 
 export const Price: React.FC<PriceProps> = ({size = "normal", text = 'رایگان', price, clasSName}: PriceProps) => {
 
-
     const svgSize=sizeClasses[size].svgSize;
+
 
     return (
         <>

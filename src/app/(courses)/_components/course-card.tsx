@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import {Badge} from "@/app/_components/badge";
 import {IconArrowLeft, IconClock} from "@/app/_components/icons/icons";
-import {Price} from "@/app/_components/price/price";
+import {Price} from "@/app/_components/price";
 
 export type CourseCardProps = CourseSummeryInterface & {}
 
