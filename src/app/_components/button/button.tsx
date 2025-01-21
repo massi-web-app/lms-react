@@ -45,8 +45,7 @@ export const Button: React.FC<ButtonProps> = ({
         {[`btn-${variant}`]: variant},
         {[`${sizeClasses[size]}`]: size},
         {[`${shapeClasses[shape]}`]: shape},
-    )
-
+    );
     return (
         <button type={type} disabled={isDisabled} {...rest} className={classes}>
             {isLoading && <Loading type={loadingType}/>}

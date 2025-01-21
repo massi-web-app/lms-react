@@ -9,7 +9,7 @@ type CourseCardListProps = {
 
 export const CourseCardList: React.FC<CourseCardListProps> = ({courses}: CourseCardListProps) => {
     return (
-        <div className="flex flex-wrap  gap-6 mt-10">
+        <div className="flex flex-wrap justify-center xl:justify-start   gap-6 mt-10">
             {
                 courses.map((course) => (
                     <CourseCard key={`course-${course.slug}`} {...course}/>
