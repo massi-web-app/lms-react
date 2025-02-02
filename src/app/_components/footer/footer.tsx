@@ -1,6 +1,7 @@
 import React from "react"
 import Image from "next/image";
 import Link from "next/link";
+import {Avatar} from "@/app/_components/avatar";
 export const Footer:React.FC =()=>{
     return (
         <div className="bg-base-100 text-base-content">
@@ -59,6 +60,7 @@ export const Footer:React.FC =()=>{
             <div className="bg-base-200 text-left" lang="en" dir="ltr">
                 <div className="container py-10 flex justify-between items-center">
                     <div className="flex gap-5 items-center ">
+                        <Avatar src="/images/developer.jpg" variant="warning" size={"large"}/>
                         <div className="flex flex-col">
                             <span className="text-base-content/50 ">Developed by:</span>
                             <span className="text-lg font-bold tracking-wide">
