@@ -7,18 +7,13 @@ import {Button} from "@/app/_components/button";
 import {IconArrowLeftFill} from "@/app/_components/icons/icons";
 import {BlogPostSummery} from "@/types/blog-post-summery.interface";
 import {BlogPostCardList} from "@/app/(blog)/blog/_components/blog-post-card-list";
+import {API_URL} from "@/configs/global";
+import {Suspense} from 'react'
+import {CardPlaceholder} from "@/app/_components/placeholders";
 
-async function getNewestCourses(count: number): Promise<CourseSummeryInterface[]> {
-    const res = await fetch(`https://api.classbon.com/api/courses/newest/${count}`, {
-        next: {
-            revalidate: 24 * 60 * 60
-        }
-    });
-    return res.json();
-}
 
 async function getNewestPosts(count: number): Promise<BlogPostSummery[]> {
-    const res = await fetch(`https://api.classbon.com/api/blog/newest/${count}`, {
+    const res = await fetch(`${API_URL}/blog/newest/${count}`, {
         next: {
             revalidate: 24 * 60 * 60
         }
@@ -28,11 +23,10 @@ async function getNewestPosts(count: number): Promise<BlogPostSummery[]> {
 
 
 export default async function Home() {
-    const newestCoursesData = getNewestCourses(4);
     const newestBlogPostsData = getNewestPosts(4);
 
 
-     const [newestCourses,newestBlogPosts]=await Promise.all([newestCoursesData,newestBlogPostsData])
+    const [newestBlogPosts] = await Promise.all([newestBlogPostsData])
 
     return (
         <>
@@ -55,7 +49,9 @@ export default async function Home() {
                         برای به روز موندن ، یاد گرفتن نکته های تازه ضروری
                     </p>
                 </div>
-                <CourseCardList courses={newestCourses}/>
+                <Suspense fallback={<CardPlaceholder count={4} className={"mt-5"}/>}>
+                    <CourseCardList courses={[]}/>
+                </Suspense>
             </section>
             <section className="px-2 my-40">
                 {/* <div className="sticky top-0 pt-0 text-center"> */}
@@ -97,7 +93,6 @@ export default async function Home() {
                     </div>
                 </div>
             </section>
-
             <section className="container pt-20">
                 <div className="flex flex-col xl:flex-row justify-between mt-7">
                     <div className="text-center xl:text-right">
