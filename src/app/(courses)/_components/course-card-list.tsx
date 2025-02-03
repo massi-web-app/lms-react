@@ -9,7 +9,6 @@ type CourseCardListProps = {
 
 
 async function getNewestCourses(count: number): Promise<CourseSummeryInterface[]> {
-    await new Promise(resolve => setTimeout(resolve, 5000));
     const res = await fetch(`${API_URL}/courses/newest/${count}`, {
         cache: 'no-store',
         next: {
