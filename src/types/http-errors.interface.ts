@@ -25,7 +25,6 @@ interface NetworkError extends Problem {
 }
 
 
-interface Implementing
 export type {
     Problem,
     UnauthorizedError,
