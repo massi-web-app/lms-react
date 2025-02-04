@@ -3,6 +3,8 @@ import {API_URL} from "@/configs/global";
 import {CourseAside} from "@/app/(courses)/courses/[slug]/_components/course-aside/course-aside";
 import {Tab} from "@/types/tab.type";
 import {Tabs} from '@/app/_components/tabs'
+import {Accordion} from "@/app/_components/accordion";
+import {Accordion as AccordionTypes} from "@/types/accordion.types";
 
 export async function generateStaticParams() {
     const slugs = await fetch(`${API_URL}/courses/slugs`).then((res) =>
@@ -24,6 +26,12 @@ export default async function ({params}: { params: { slug: string } }) {
     const {slug} = params;
     const course = await getCourse(slug);
 
+    const faqs: AccordionTypes[] = course.frequentlyAskedQuestions.map((faq) => ({
+        id: faq.id,
+        title: faq.question,
+        content: faq.answer
+    }));
+
 
     const tabs: Tab[] = [
         {
@@ -31,14 +39,14 @@ export default async function ({params}: { params: { slug: string } }) {
             content: course.description
         },
         {
-            label:"دیدگاه ها",
-            content:"course comment",
+            label: "دیدگاه ها",
+            content: "course comment",
         },
         {
-            label:"سوالات متداول",
-            content:"according components"
+            label: "سوالات متداول",
+            content: <Accordion data={faqs}/>
         }
-    ]
+    ];
 
 
     return (
