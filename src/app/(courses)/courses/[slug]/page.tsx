@@ -1,6 +1,6 @@
 import {CourseDetails} from "@/types/course-details.interface";
 import {API_URL} from "@/configs/global";
-import {Rating} from '@/app/_components/rating'
+import {CourseAside} from "@/app/(courses)/courses/[slug]/_components/course-aside/course-aside";
 
 export async function generateStaticParams() {
     const slugs = await fetch(`${API_URL}/courses/slugs`).then((res) =>
@@ -24,7 +24,7 @@ const CourseDetails = async ({params}: { params: { slug: string } }) => {
 
 
     return (
-        <div className="h-96 container grid grid-cols-10 grid-rows-[1fr 1fr] gap-10 py-10">
+        <div className="container grid grid-cols-10 grid-rows-[1fr 1fr] gap-10 py-10">
             <div
                 className="bg-primary pointer-events-none absolute right-0 aspect-square w-1/2   rounded-full opacity-10 blur-3xl"></div>
 
@@ -39,8 +39,7 @@ const CourseDetails = async ({params}: { params: { slug: string } }) => {
             </div>
 
             <div className="col-span-10 xl:col-span-3">
-                <Rating rate={3}/>
-
+                <CourseAside {...course}/>
             </div>
 
             <div className="col-span-10 xl:col-span-6 bg-info">
