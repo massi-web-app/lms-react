@@ -1,6 +1,7 @@
 import "./globals.css";
 import {Figtree} from 'next/font/google';
 import localFont from 'next/font/local';
+import QueryProvider from '@/providers/react-query-provider'
 
 /**
  * My Components
@@ -62,11 +63,14 @@ export default function RootLayout({
         <html dir="rtl" className={`dark ${figTree.variable} ${yekanbakh.variable}`}>
             <body
                 className="min-h-screen grid grid-rows-[80px_1fr_auto] dark:bg-base-100 dark:text-base-content">
-                <Header/>
-                <main>
-                    {children}
-                </main>
-                <Footer/>
+                <QueryProvider>
+                    <Header/>
+                    <main>
+                        {children}
+                    </main>
+                    <Footer/>
+                </QueryProvider>
+
             </body>
         </html>
     );
