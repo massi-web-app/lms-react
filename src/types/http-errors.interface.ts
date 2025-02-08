@@ -28,6 +28,9 @@ interface NotFoundError extends Problem{
 
 }
 
+type ApiError = BadRequestError | NetworkError | ValidationError | UnauthorizedError | UnhandledException;
+
+
 
 export type {
     Problem,
@@ -36,6 +39,7 @@ export type {
     ValidationError,
     UnhandledException,
     NetworkError,
-    NotFoundError
+    NotFoundError,
+    ApiError
 }
 
