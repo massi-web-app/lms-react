@@ -5,6 +5,7 @@ export const queryClient=new QueryClient({
     queryCache:new QueryCache({
        onError:(error)=>{
            //show notification
+           console.log(error);
        }
     }),
     defaultOptions:{

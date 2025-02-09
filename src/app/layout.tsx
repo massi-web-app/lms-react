@@ -1,7 +1,7 @@
 import "./globals.css";
 import {Figtree} from 'next/font/google';
 import localFont from 'next/font/local';
-import QueryProvider from '@/providers/react-query-provider'
+import QueryProvider from '@/providers/react-query-provider';
 
 /**
  * My Components
