@@ -16,6 +16,7 @@ const httpService = axios.create({
 
 
 httpService.interceptors.response.use((response) => {
+
     return response;
 }, (error) => {
     if (error?.response) {
@@ -43,7 +44,7 @@ async function apiBase<T>(
 async function readData<T>(url: string, headers?: AxiosRequestHeaders): Promise<T> {
     const options: AxiosRequestConfig = {
         headers,
-        method: 'get'
+        method: 'GET'
     }
     return await apiBase<T>(url, options);
 }

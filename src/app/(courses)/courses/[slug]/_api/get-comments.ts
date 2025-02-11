@@ -1,6 +1,6 @@
 import {CourseCommentList} from "@/app/(courses)/courses/[slug]/_types/course-comments.interface";
 import {readData} from "@/core/http-service/http-service";
-import {useQuery} from "react-query";
+import {useQuery} from "@tanstack/react-query";
 
 type GetCommentsOptions = {
     params: {
@@ -16,10 +16,12 @@ const getComments = ({params}: GetCommentsOptions): Promise<CourseCommentList> =
 }
 
 export const useCourseComments = ({params}: GetCommentsOptions) => {
-    const {data} = useQuery({
+    const {data,isLoading} = useQuery({
         queryKey: ['courseComments'],
-        queryFn: () => getComments({params})
+        queryFn: () => getComments({params}),
+        staleTime: 5 * 60 * 60 * 1000,
+        gcTime: 6 * 60 * 60 * 1000
     });
 
-    return {data};
+    return {data,isLoading};
 }
