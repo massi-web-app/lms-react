@@ -1,4 +1,4 @@
- {
+{
   "name": "lms-react",
   "version": "0.1.0",
   "private": true,
@@ -20,7 +20,8 @@
     "colord": "^2.9.3",
     "next": "15.1.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-intersection-observer": "^9.15.1"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "3.2.3",
