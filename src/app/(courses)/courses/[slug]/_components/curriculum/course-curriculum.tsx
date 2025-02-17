@@ -1,13 +1,13 @@
 "use client";
-import React, { useState } from "react";
-import { CourseCurriculumProps } from "./course-curriculum.types";
-import { Badge } from "@/app/_components/badge";
+import React, {useState} from "react";
+import {CourseCurriculumProps} from "./course-curriculum.types";
+import {Badge} from "@/app/_components/badge";
 import {
     IconChevronDown,
     IconChevronUp,
 } from "@/app/_components/icons/icons";
 
-export const CourseCurriculum: React.FC<CourseCurriculumProps> = ({ data }) => {
+export const CourseCurriculum: React.FC<CourseCurriculumProps> = ({data}) => {
     const [activeIndex, setActiveIndex] = useState<number | null>(0);
 
     const toggleAccordion = (index: number) => {
@@ -28,7 +28,8 @@ export const CourseCurriculum: React.FC<CourseCurriculumProps> = ({ data }) => {
                                     : "text-base-content"
                             }`}
                         >
-                            <span className="h-6 w-6  drop-shadow-md rounded-full flex items-center justify-center font-bold text-sm ml-2 bg-base-content/10">
+                            <span
+                                className="h-6 w-6  drop-shadow-md rounded-full flex items-center justify-center font-bold text-sm ml-2 bg-base-content/10">
                                 {index}
                             </span>
                             <span className="ml-auto">{chapter.title}</span>
@@ -41,9 +42,9 @@ export const CourseCurriculum: React.FC<CourseCurriculumProps> = ({ data }) => {
                                 </Badge>
                             </div>
                             {activeIndex === index ? (
-                                <IconChevronUp width={18} />
+                                <IconChevronUp width={18}/>
                             ) : (
-                                <IconChevronDown width={18} />
+                                <IconChevronDown width={18}/>
                             )}
                         </button>
                     </h2>
@@ -61,7 +62,8 @@ export const CourseCurriculum: React.FC<CourseCurriculumProps> = ({ data }) => {
                                         className="py-5 border-b border-base-content/10 ml-4 border-dashed last-of-type:border-0"
                                         key={`lecture${lecture.title}`}
                                     >
-                                        <span className="absolute flex items-center justify-center w-4 h-4 bg-blue-100 rounded-full -right-2  bg-primary/30"></span>
+                                        <span
+                                            className="absolute flex items-center justify-center w-4 h-4 bg-blue-100 rounded-full -right-2  bg-primary/30"></span>
 
                                         <h3 className="text-base font-semibold text-gray-900 flex items-center justify-between">
                                             {lecture.title}
