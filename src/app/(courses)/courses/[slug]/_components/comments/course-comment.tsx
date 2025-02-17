@@ -5,7 +5,10 @@ import {Comment} from '@/app/_components/comment'
 import {TextPlaceholder} from "@/app/_components/placeholders";
 import {Fragment, useEffect} from "react";
 import {useInView}  from 'react-intersection-observer';
-import {IconRefresh} from '@/app/_components/icons/icons'
+import {IconRefresh} from '@/app/_components/icons/icons';
+import {Alert} from '@/app/_components/alert'
+
+
 export const CourseComments = () => {
 
     const {ref,inView}=useInView({
@@ -31,7 +34,7 @@ export const CourseComments = () => {
     if (error) {
         return (
             <>
-                <p>خطا در برقراری ارتباط با سرور</p>
+                <Alert variant="error">خطا در برقراری ارتباط با سرور</Alert>
                 <div className="text-center mt-3">
                     <Button
                         variant="neutral"
