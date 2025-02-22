@@ -1,9 +1,9 @@
 
-
+import Link from 'next/link';
 const Verify=async ()=>{
     return (
-        <div className="text-5xl flex-1 flex justify-center items-center">
-            Verify
+        <div className="">
+            <Link href={"/signin"}>Go To SignIn page</Link>
         </div>
     )
 }

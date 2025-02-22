@@ -9,6 +9,7 @@ import QueryProvider from '@/providers/react-query-provider';
 
 import {Header} from "./_components/header"
 import {Footer} from "./_components/footer"
+import NextTopLoader from "nextjs-toploader";
 
 const figTree = Figtree({
     display: "swap",
@@ -51,9 +52,7 @@ const yekanbakh = localFont({
         }
     ],
     variable: '--font-yekanbakh'
-})
-
-
+});
 export default function RootLayout({
                                        children,
                                    }: Readonly<{
@@ -61,17 +60,18 @@ export default function RootLayout({
 }>) {
     return (
         <html dir="rtl" className={`dark ${figTree.variable} ${yekanbakh.variable}`}>
-            <body
-                className="min-h-screen grid grid-rows-[80px_1fr_auto] dark:bg-base-100 dark:text-base-content">
-                <QueryProvider>
-                    <Header/>
-                    <main>
-                        {children}
-                    </main>
-                    <Footer/>
-                </QueryProvider>
+        <body
+            className="min-h-screen grid grid-rows-[80px_1fr_auto] dark:bg-base-100 dark:text-base-content">
+         <NextTopLoader showSpinner={false} color="var(--color-primary)"/>
+            <QueryProvider>
+                <Header/>
+                <main>
+                    {children}
+                </main>
+                <Footer/>
+            </QueryProvider>
 
-            </body>
+        </body>
         </html>
     );
 }

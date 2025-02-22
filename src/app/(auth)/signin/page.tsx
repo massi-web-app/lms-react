@@ -1,10 +1,9 @@
-const Siging = () => {
+import SignInForm from './components/sigin-form';
 
+const SigIn = () => {
     return (
-        <div className="text-5xl flex justify-center items-center flex-1">
-            this is page singin
-        </div>
+        <SignInForm/>
     )
 }
 
-export default Siging;
+export default SigIn;
