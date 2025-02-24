@@ -6,5 +6,5 @@ export type ComponentBase = {
     className?: string;
     variant?: Variant;
     size?: Size;
-    loading
+    loading?
 }
