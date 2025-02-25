@@ -11,6 +11,8 @@ export const queryClient=new QueryClient({
     mutationCache:new MutationCache({
        onError:(error)=>{
            //show notification
+           console.log(error);
+           debugger;
        }
     }),
     defaultOptions:{

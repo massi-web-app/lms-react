@@ -3,15 +3,25 @@ import {Button} from "@/app/_components/button";
 import {Textbox} from "@/app/_components/textbox";
 import {TextInput} from "@/app/_components/form-input";
 import {useForm} from "react-hook-form";
-import {SigIn} from '../types/sigin.types';
+import {SingIn} from '../types/sigin.types';
+import {useSignIn} from "@/app/(auth)/signin/_api/signin";
+import {useRouter} from "next/navigation";
 
 const SignInForm = () => {
 
-    const {register, handleSubmit, formState: {errors}} = useForm<SigIn>();
+    const {register, handleSubmit, formState: {errors},getValues} = useForm<SingIn>();
+
+    const router = useRouter();
 
 
-    const onSubmit = async (data: any) => {
-        console.log(data);
+    const signIn = useSignIn({
+        onSuccess: () => {
+            router.push(`/verify?mobile=${getValues('mobile')}`)
+        }
+    })
+
+    const onSubmit = async (data: SingIn) => {
+        signIn.submit(data);
     }
 
     return (
@@ -19,24 +29,24 @@ const SignInForm = () => {
             <h5 className="text-2xl">ورود | ثبت نام</h5>
             <p className="mt-2">دنیای شگفت انگیز برنامه نویسی در انتظار شماست!</p>
             <form className="flex flex-col gap-6 mt-16" onSubmit={handleSubmit(onSubmit)}>
-                <TextInput<SigIn>
+                <TextInput<SingIn>
                     register={register}
                     name={"mobile"}
-                    rules={{
-                        required: "شماره موبایل الزامی است.",
-                        maxLength: {
-                            value: 11,
-                            message: "شماره موبایل 11 رقم باشد"
-                        },
-                        minLength: {
-                            value:11,
-                            message:"شماره موبایل باید 11 رقم باشد"
-                        }
-                    }}
+                    // rules={{
+                    //     required: "شماره موبایل الزامی است.",
+                    //     maxLength: {
+                    //         value: 11,
+                    //         message: "شماره موبایل 11 رقم باشد"
+                    //     },
+                    //     minLength: {
+                    //         value: 11,
+                    //         message: "شماره موبایل باید 11 رقم باشد"
+                    //     }
+                    // }}
                     errors={errors}
                 />
 
-                <Button type="submit" variant="primary">
+                <Button type="submit" variant="primary" isLoading={signIn.isPending}>
                     تایید و دریافت کد
                 </Button>
             </form>

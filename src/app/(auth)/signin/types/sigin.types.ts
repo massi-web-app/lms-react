@@ -1,3 +1,3 @@
-export interface SigIn{
+export interface SingIn {
     mobile:string;
 }
