@@ -6,6 +6,8 @@ import {useForm} from "react-hook-form";
 import {SingIn} from '../types/sigin.types';
 import {useSignIn} from "@/app/(auth)/signin/_api/signin";
 import {useRouter} from "next/navigation";
+import {useNotificationStore} from "@/stores/notification.store";
+import {useEffect} from "react";
 
 const SignInForm = () => {
 
@@ -24,6 +26,20 @@ const SignInForm = () => {
         signIn.submit(data);
     }
 
+    const showNotificaiton=useNotificationStore(state => state.showNotification);
+
+    useEffect(()=>{
+
+        showNotificaiton({
+            type:"error",
+            message:"error"
+        })
+
+    },[]);
+
+
+
+
     return (
         <>
             <h5 className="text-2xl">ورود | ثبت نام</h5>
@@ -32,17 +48,17 @@ const SignInForm = () => {
                 <TextInput<SingIn>
                     register={register}
                     name={"mobile"}
-                    // rules={{
-                    //     required: "شماره موبایل الزامی است.",
-                    //     maxLength: {
-                    //         value: 11,
-                    //         message: "شماره موبایل 11 رقم باشد"
-                    //     },
-                    //     minLength: {
-                    //         value: 11,
-                    //         message: "شماره موبایل باید 11 رقم باشد"
-                    //     }
-                    // }}
+                    rules={{
+                        required: "شماره موبایل الزامی است.",
+                        maxLength: {
+                            value: 11,
+                            message: "شماره موبایل 11 رقم باشد"
+                        },
+                        minLength: {
+                            value: 11,
+                            message: "شماره موبایل باید 11 رقم باشد"
+                        }
+                    }}
                     errors={errors}
                 />
 
