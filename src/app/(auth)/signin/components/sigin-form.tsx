@@ -31,8 +31,8 @@ const SignInForm = () => {
     useEffect(()=>{
 
         showNotificaiton({
-            type:"error",
-            message:"error"
+            type:"success",
+            message:"عملیات با موفقیت انجام شد"
         })
 
     },[]);

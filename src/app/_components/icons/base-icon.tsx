@@ -1,3 +1,4 @@
+"use client";
 import {SVGAttributes} from "react";
 import {SvgIcon} from "@/app/_components/icons/icon.types";
 
