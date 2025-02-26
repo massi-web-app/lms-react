@@ -1,10 +1,9 @@
 
 import Link from 'next/link';
+import {VerificationForm} from "@/app/(auth)/verify/_components/verification-form";
 const Verify=async ()=>{
     return (
-        <div className="">
-            <Link href={"/signin"}>Go To SignIn page</Link>
-        </div>
+        <VerificationForm/>
     )
 }
 
