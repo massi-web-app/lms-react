@@ -2,6 +2,7 @@ import {NotificationInterface,} from "@/types/notification.interface";
 import {create} from 'zustand';
 import {generateId} from '@/utils/string'
 import {devtools} from 'zustand/middleware'
+
 type NotificationState = {
     notifications: NotificationInterface[];
     showNotification: (notification: Omit<NotificationInterface, 'id'>) => void,
@@ -9,22 +10,27 @@ type NotificationState = {
 }
 
 export const useNotificationStore = create<NotificationState>()(devtools((set, get) => ({
-        notifications: [],
-        showNotification: (notification) => {
-            const id = generateId();
-            set(state => ({
-                notifications: [...state.notifications, {id: id, ...notification}]
-            }));
+    notifications: [],
+    showNotification: (notification) => {
+        const id = generateId();
+        set(state => ({
+            notifications: [...state.notifications, {id: id, ...notification}]
+        }));
 
-            setTimeout(() => {
-                get().dismissNotification(id);
-            }, 5000);
+        setTimeout(() => {
+            get().dismissNotification(id);
+        }, 5000);
 
-        },
-        dismissNotification: (id) => {
-            set(state => ({
-                notifications: state.notifications.filter(p => p.id !== id)
-            }))
-        }
-    }))
-)
+    },
+    dismissNotification: (id) => {
+        set(state => ({
+            notifications: state.notifications.filter(p => p.id !== id)
+        }))
+    }
+})));
+
+export const showNotifications = (notifications: Omit<NotificationInterface, 'id'>[]) => {
+    notifications.forEach(p => useNotificationStore.getState().showNotification(p))
+}
+
+

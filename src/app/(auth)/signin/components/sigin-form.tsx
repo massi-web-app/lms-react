@@ -11,33 +11,25 @@ import {useEffect} from "react";
 
 const SignInForm = () => {
 
-    const {register, handleSubmit, formState: {errors},getValues} = useForm<SingIn>();
+    const {register, handleSubmit, formState: {errors}, getValues} = useForm<SingIn>();
 
     const router = useRouter();
 
+    const showNotification = useNotificationStore(state => state.showNotification);
 
     const signIn = useSignIn({
         onSuccess: () => {
-            router.push(`/verify?mobile=${getValues('mobile')}`)
+            router.push(`/verify?mobile=${getValues('mobile')}`);
+            showNotification({
+                message: "کد تایید به شماره شما ارسال شد",
+                type: "info"
+            })
         }
     })
 
     const onSubmit = async (data: SingIn) => {
         signIn.submit(data);
     }
-
-    const showNotificaiton=useNotificationStore(state => state.showNotification);
-
-    useEffect(()=>{
-
-        showNotificaiton({
-            type:"success",
-            message:"عملیات با موفقیت انجام شد"
-        })
-
-    },[]);
-
-
 
 
     return (

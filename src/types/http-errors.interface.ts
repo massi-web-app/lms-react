@@ -1,8 +1,8 @@
 interface Problem {
     title: string;
-    status : number;
+    status: number;
     detail?: string;
-    errors?: Record<string, string[]>
+    errors?: Record<string, string[]>;
 }
 
 
@@ -24,12 +24,11 @@ interface UnhandledException extends Problem {
 interface NetworkError extends Problem {
 }
 
-interface NotFoundError extends Problem{
+interface NotFoundError extends Problem {
 
 }
 
 type ApiError = BadRequestError | NetworkError | ValidationError | UnauthorizedError | UnhandledException;
-
 
 
 export type {
