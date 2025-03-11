@@ -1,6 +1,6 @@
 "use client";
 import {AuthCodeProps, AuthInputProps} from "@/app/_components/auth-code/auth-code.types";
-import {useRef} from "react";
+import React, {useEffect, useRef} from "react";
 import classNames from "classnames";
 
 
@@ -27,40 +27,74 @@ export const AuthCode: React.FC<AuthCodeProps> = ({
         pattern: '[0-9]{1}'
     };
 
+    useEffect(() => {
+
+        if (authFocus){
+            inputsRef.current[0].focus();
+        }
+
+    }, [authFocus]);
+
 
     const sendResult = () => {
-        //send Code
-    }
 
-    const handleOnChange = () => {
-
-    }
-
-    const handleOnFoucs = () => {
+        const result = inputsRef.current.map(input => input.value).join('');
+        onChange(result);
 
     }
 
+    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const {target: {value, nextElementSibling}} = e;
+        if (value.match(inputProps.pattern)) {
+            if (nextElementSibling !== null) {
+                (nextElementSibling as HTMLInputElement).focus();
+            }
+        } else {
+            e.target.value = '';
+        }
 
-    const handleKeyDown = () => {
+        sendResult();
+    }
 
+    const handleOnFoucs = (e: React.FocusEvent<HTMLInputElement>) => {
+        e.target.select();
     }
 
 
-    const classes=classNames("textbox flex-1 w-1 text-center",{
-        [`textbox-${variant}`]:variant
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+
+        const {key} = e;
+        const target = e.target as HTMLInputElement;
+        if (key === 'Backspace') {
+            if (target.value === '') {
+                if (target.previousElementSibling !== null) {
+                    const previousElement = target.previousElementSibling as HTMLInputElement;
+                    previousElement.value = '';
+                    previousElement.focus();
+                }
+            } else {
+                target.value = '';
+            }
+        }
+        sendResult();
+    }
+
+
+    const classes = classNames("textbox flex-1 w-1 text-center", {
+        [`textbox-${variant}`]: variant
     })
 
     const inputs = [];
 
     for (let i = 0; i < length; i++) {
         inputs.push(
-            <input className={classes} type="text" key={`input-auth-code-${i}`} maxLength={1} disabled={isDisabled} onChange={handleOnChange} onFocus={handleOnFoucs}
+            <input className={classes} type="text" key={`input-auth-code-${i}`} maxLength={1} disabled={isDisabled}
+                   onChange={handleOnChange} onFocus={handleOnFoucs}
                    onKeyDown={handleKeyDown} ref={(element: HTMLInputElement) => {
-                    inputsRef.current[i] = element;
-                }}/>
+                inputsRef.current[i] = element;
+            }}/>
         );
     }
-
 
 
     return (

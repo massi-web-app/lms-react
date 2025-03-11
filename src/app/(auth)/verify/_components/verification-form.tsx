@@ -11,7 +11,7 @@ export const VerificationForm=()=>{
             <form
                 className="flex flex-col gap-6 mt-10 flex-1"
             >
-               <AuthCode length={4}  className={"mt-10"} onChange={(value)=> { }}/>
+               <AuthCode className={"mt-10"} onChange={(value)=> { console.log(value) }}/>
 
 
                 Timer
