@@ -2,8 +2,14 @@
 import {Button} from '@/app/_components/button';
 import Link from 'next/link';
 import {AuthCode} from "@/app/_components/auth-code";
+import {useRef} from "react";
+import {AuthCodeRef} from "@/app/_components/auth-code/auth-code.types";
 
-export const VerificationForm=()=>{
+export const VerificationForm = () => {
+
+    const authCodeRef = useRef<AuthCodeRef>(null);
+
+
     return (
         <>
             <h5 className="text-2xl">کد تایید</h5>
@@ -11,13 +17,15 @@ export const VerificationForm=()=>{
             <form
                 className="flex flex-col gap-6 mt-10 flex-1"
             >
-               <AuthCode className={"mt-10"} onChange={(value)=> { console.log(value) }}/>
+                <AuthCode ref={authCodeRef} className={"mt-10"} onChange={(value) => {
+                    console.log(value)
+                }}/>
 
 
                 Timer
                 <Button
+                    onClick={authCodeRef.current?.focus}
                     isLink={true}
-
                 >
                     ارسال مجدد کد تایید
                 </Button>

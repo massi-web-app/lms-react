@@ -1,50 +1,44 @@
 "use client";
-import {AuthCodeProps, AuthInputProps} from "@/app/_components/auth-code/auth-code.types";
-import React, {useEffect, useRef} from "react";
+import {AuthCodeProps, AuthCodeRef, AuthInputProps} from "@/app/_components/auth-code/auth-code.types";
+import React, {forwardRef, useEffect, useImperativeHandle, useRef} from "react";
 import classNames from "classnames";
 
 
-export const AuthCode: React.FC<AuthCodeProps> = ({
-                                                      variant = 'ghost',
-                                                      authFocus = true,
-                                                      className,
-                                                      isDisabled,
-                                                      length = 5,
-                                                      onChange
-                                                  }) => {
-
-
+export const AuthCode = forwardRef<AuthCodeRef, AuthCodeProps>(({
+                                                             variant = "ghost",
+                                                             autoFocus = true,
+                                                             className,
+                                                             isDisabled,
+                                                             length = 5,
+                                                             onChange,
+                                                         }, ref) => {
     if (length < 1) {
         throw new Error("تعداد ارقام باید بزرگتر از صفر باشد");
     }
 
     const inputsRef = useRef<Array<HTMLInputElement>>([]);
 
-
     const inputProps: AuthInputProps = {
-        min: '0',
-        max: '9',
-        pattern: '[0-9]{1}'
+        min: "0",
+        max: "9",
+        pattern: "[0-9]{1}",
     };
 
     useEffect(() => {
-
-        if (authFocus){
-            inputsRef.current[0].focus();
+        if (autoFocus) {
+            inputsRef.current[0].focus
         }
-
-    }, [authFocus]);
-
+    }, [autoFocus])
 
     const sendResult = () => {
-
         const result = inputsRef.current.map(input => input.value).join('');
         onChange(result);
-
-    }
+    };
 
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        console.log('on change');
         const {target: {value, nextElementSibling}} = e;
+
         if (value.match(inputProps.pattern)) {
             if (nextElementSibling !== null) {
                 (nextElementSibling as HTMLInputElement).focus();
@@ -54,16 +48,15 @@ export const AuthCode: React.FC<AuthCodeProps> = ({
         }
 
         sendResult();
-    }
+    };
 
-    const handleOnFoucs = (e: React.FocusEvent<HTMLInputElement>) => {
+    const handleOnFocus = (e: React.FocusEvent<HTMLInputElement>) => {
         e.target.select();
-    }
+    };
 
-
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-
+    const handleOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         const {key} = e;
+
         const target = e.target as HTMLInputElement;
         if (key === 'Backspace') {
             if (target.value === '') {
@@ -76,35 +69,56 @@ export const AuthCode: React.FC<AuthCodeProps> = ({
                 target.value = '';
             }
         }
-        sendResult();
-    }
 
+        sendResult();
+    };
+
+
+    useImperativeHandle(ref, () => ({
+        focus: () => {
+            if(inputsRef.current) {
+                inputsRef.current[0].focus();
+            }
+        },
+        clear: () => {
+            if (inputsRef.current) {
+                for(let i = 0; i< inputsRef.current.length; i++) {
+                    inputsRef.current[i].value = '';
+                }
+
+                inputsRef.current[0].focus();
+            }
+
+            sendResult();
+        }
+    }))
 
     const classes = classNames("textbox flex-1 w-1 text-center", {
-        [`textbox-${variant}`]: variant
-    })
+        [`textbox-${variant}`]: variant,
+    });
 
     const inputs = [];
-
     for (let i = 0; i < length; i++) {
         inputs.push(
-            <input className={classes} type="text" key={`input-auth-code-${i}`} maxLength={1} disabled={isDisabled}
-                   onChange={handleOnChange} onFocus={handleOnFoucs}
-                   onKeyDown={handleKeyDown} ref={(element: HTMLInputElement) => {
-                inputsRef.current[i] = element;
-            }}/>
+            <input
+                type="text"
+                key={i}
+                maxLength={1}
+                className={classes}
+                disabled={isDisabled}
+                onChange={handleOnChange}
+                onFocus={handleOnFocus}
+                onKeyDown={handleOnKeyDown}
+                ref={(element: HTMLInputElement) => {
+                    inputsRef.current[i] = element;
+                }}
+            />
         );
     }
 
-
     return (
         <>
-            <div className={`flex gap-4 flex-row-reverse `}>
-                {
-                    inputs
-                }
-            </div>
-
+            <div className={`flex gap-4 flex-row-reverse `}>{inputs}</div>
         </>
-    )
-}
+    );
+});

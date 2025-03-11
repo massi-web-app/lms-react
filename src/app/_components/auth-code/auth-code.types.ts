@@ -13,3 +13,7 @@ export type AuthInputProps = {
 }
 
 
+export type AuthCodeRef = {
+    focus: () => void;
+    clear: () => void;
+}
