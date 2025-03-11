@@ -1,10 +1,11 @@
 "use client";
-import {AuthCodeProps, AuthCodeRef, AuthInputProps} from "@/app/_components/auth-code/auth-code.types";
-import React, {forwardRef, useEffect, useImperativeHandle, useRef} from "react";
+
+import React, { FC, forwardRef, useEffect, useImperativeHandle, useRef } from "react";
+import { AuthCodeProps, AuthCodeRef, AuthInputProps } from "./auth-code.types";
 import classNames from "classnames";
 
-
-export const AuthCode = forwardRef<AuthCodeRef, AuthCodeProps>(({
+// eslint-disable-next-line react/display-name
+const AuthCode = forwardRef<AuthCodeRef, AuthCodeProps>(({
                                                              variant = "ghost",
                                                              autoFocus = true,
                                                              className,
@@ -81,6 +82,7 @@ export const AuthCode = forwardRef<AuthCodeRef, AuthCodeProps>(({
             }
         },
         clear: () => {
+            console.log(inputsRef.current);
             if (inputsRef.current) {
                 for(let i = 0; i< inputsRef.current.length; i++) {
                     inputsRef.current[i].value = '';
@@ -88,7 +90,6 @@ export const AuthCode = forwardRef<AuthCodeRef, AuthCodeProps>(({
 
                 inputsRef.current[0].focus();
             }
-
             sendResult();
         }
     }))
@@ -101,8 +102,8 @@ export const AuthCode = forwardRef<AuthCodeRef, AuthCodeProps>(({
     for (let i = 0; i < length; i++) {
         inputs.push(
             <input
+                key={`input-key-auth-${i}`}
                 type="text"
-                key={i}
                 maxLength={1}
                 className={classes}
                 disabled={isDisabled}
@@ -122,3 +123,5 @@ export const AuthCode = forwardRef<AuthCodeRef, AuthCodeProps>(({
         </>
     );
 });
+
+export default AuthCode;
