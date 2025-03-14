@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            background: #1a1f36;
+            align-items: center;
+            justify-content: center;
+            height: 90vh;
+        }
+    </style>
+</head>
+<body>
+
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="400" height="500">
+    <circle r="150" cx="200" cy="200"
+            style="
+            fill: none;
+            stroke-width: 15px;
+            stroke:#272d3d;
+            stroke-dasharray:  942;
+            stroke-dashoffset: 0;
+            stroke-linecap: round">
+
+    </circle>
+    <circle r="150" id="circle" cx="250" cy="250"
+            style="fill: none;
+            stroke-width: 15px;
+            stroke:#48b3eb;
+            stroke-dasharray:  942;
+            stroke-dashoffset: 0;
+            stroke-linecap: round;
+            transform: rotate(-90deg);
+            transform-origin: center center;
+            transition: all 0.2s ease-in-out;">
+
+    </circle>
+</svg>
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", () => {
+
+        let value = 0;
+
+        setInterval(() => {
+            value = value + 10;
+            document.getElementById("circle").style.strokeDashoffset = value;
+        }, 1000)
+
+
+    })
+</script>
+
+</body>
+</html>

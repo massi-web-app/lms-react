@@ -4,6 +4,14 @@ import Link from 'next/link';
 import AuthCode from "@/app/_components/auth-code/auth-code";
 import {useRef} from "react";
 import {AuthCodeRef} from "@/app/_components/auth-code/auth-code.types";
+import {Timer} from "@/app/_components/timer/timer";
+
+
+const getTwoMinutesFromNow = () => {
+    const time = new Date();
+    time.setSeconds(time.getSeconds() + 120);
+    return time;
+}
 
 export const VerificationForm = () => {
 
@@ -24,6 +32,8 @@ export const VerificationForm = () => {
                         console.log(value);
                     }}
                 />
+
+                <Timer className="my-8" size={"small"} expiryTimestamp={getTwoMinutesFromNow()} showDays={false} showHours={false } showTitle={false}/>
 
                 <Button isLink={true} onClick={authCodeRef.current?.clear}>ارسال مجدد کد تایید</Button>
                 <Button type="submit" variant="primary">

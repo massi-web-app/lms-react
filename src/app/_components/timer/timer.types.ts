@@ -14,7 +14,7 @@ type VariantWithGradient = Omit<ComponentBase, 'variant' | 'isDisabled'>
 
 export type TimerProps = VariantWithGradient & {
     variant?: Variant | 'gradient',
-    expireTimestamp: Date,
+    expiryTimestamp: Date,
     autoStart?: boolean,
     showTitle?: boolean,
     showDays?: boolean,
