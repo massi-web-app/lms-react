@@ -9,6 +9,10 @@ const nextConfig: NextConfig = {
                 hostname:"api.classbon.com",
             },
             {
+                protocol:"http",
+                hostname:"api.classbon.com",
+            },
+            {
                 protocol:"https",
                 hostname:"classbon-blog.s3.ir-thr-at1.arvanstorage.ir"
             },

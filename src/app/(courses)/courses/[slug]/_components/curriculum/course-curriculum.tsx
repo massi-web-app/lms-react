@@ -2,6 +2,7 @@
 import React, {useState} from "react";
 import {CourseCurriculumProps} from "./course-curriculum.types";
 import {Badge} from "@/app/_components/badge";
+import {Button} from "@/app/_components/button";
 import {
     IconChevronDown,
     IconChevronUp,
@@ -19,7 +20,7 @@ export const CourseCurriculum: React.FC<CourseCurriculumProps> = ({data}) => {
             {data?.map((chapter, index) => (
                 <div className="rounded-xl" key={`chapter-${chapter.id}`}>
                     <h2 className="accordion-title">
-                        <button
+                        <Button
                             onClick={() => toggleAccordion(index)}
                             type="button"
                             className={`${
@@ -46,7 +47,7 @@ export const CourseCurriculum: React.FC<CourseCurriculumProps> = ({data}) => {
                             ) : (
                                 <IconChevronDown width={18}/>
                             )}
-                        </button>
+                        </Button>
                     </h2>
                     {activeIndex === index && (
                         <div className={`accordion-content`}>

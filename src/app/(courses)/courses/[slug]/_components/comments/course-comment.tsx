@@ -6,7 +6,8 @@ import {TextPlaceholder} from "@/app/_components/placeholders";
 import {Fragment, useEffect} from "react";
 import {useInView}  from 'react-intersection-observer';
 import {IconRefresh} from '@/app/_components/icons/icons';
-import {Alert} from '@/app/_components/alert'
+import {Alert} from '@/app/_components/alert';
+import {Button} from '@/app/_components/button';
 
 
 export const CourseComments = () => {
