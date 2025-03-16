@@ -8,10 +8,14 @@ import {useSignIn} from "@/app/(auth)/signin/_api/signin";
 import {useRouter} from "next/navigation";
 import {useNotificationStore} from "@/stores/notification.store";
 import {useEffect} from "react";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {signInSchema} from "@/app/(auth)/signin/_types/signin.schema";
 
 const SignInForm = () => {
 
-    const {register, handleSubmit, formState: {errors}, getValues} = useForm<SingIn>();
+    const {register, handleSubmit, formState: {errors}, getValues} = useForm<SingIn>({
+        resolver: zodResolver(signInSchema)
+    });
 
     const router = useRouter();
 
@@ -40,17 +44,6 @@ const SignInForm = () => {
                 <TextInput<SingIn>
                     register={register}
                     name={"mobile"}
-                    rules={{
-                        required: "شماره موبایل الزامی است.",
-                        maxLength: {
-                            value: 11,
-                            message: "شماره موبایل 11 رقم باشد"
-                        },
-                        minLength: {
-                            value: 11,
-                            message: "شماره موبایل باید 11 رقم باشد"
-                        }
-                    }}
                     errors={errors}
                 />
 
