@@ -2,7 +2,7 @@
 import {Button} from '@/app/_components/button';
 import Link from 'next/link';
 import AuthCode from "@/app/_components/auth-code/auth-code";
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {AuthCodeRef} from "@/app/_components/auth-code/auth-code.types";
 import {Timer} from "@/app/_components/timer/timer";
 import {TimerRef} from "@/app/_components/timer/timer.types";
@@ -11,15 +11,17 @@ import {useNotificationStore} from "@/stores/notification.store";
 import {useSearchParams} from "next/navigation";
 import {useForm} from "react-hook-form";
 import {VerifyUserType} from "@/app/(auth)/verify/_types/verify-user.type";
+import {useFormState} from "react-dom";
+import {sendAuthCode} from "@/actions/auth";
 
 
 const getTwoMinutesFromNow = () => {
     const time = new Date();
-    time.setSeconds(time.getSeconds() + 5);
+    time.setSeconds(time.getSeconds() + 10);
     return time;
 }
 
-export const VerificationForm = () => {
+export const VerificationForm = ({mobile}:{mobile:string}) => {
 
     const [showResendCode, setShowResendCode] = useState<boolean>(false);
     const authCodeRef = useRef<AuthCodeRef>(null);
@@ -28,18 +30,11 @@ export const VerificationForm = () => {
     const {handleSubmit, setValue, register, formState: {isValid}} = useForm<VerifyUserType>()
     const showNotification = useNotificationStore(state => state.showNotification);
 
+    const [sendAuthCodeState,sendAuthCodeAction]=useFormState(sendAuthCode,{});
+
     const params = useSearchParams();
     const username = params.get('mobile')!;
 
-    const sendAuthCode = useSendAuthCode({
-        onSuccess: () => {
-            //show Notifications
-            showNotification({
-                type: "info",
-                message: "کد تایید به شماره شما ارسال شد."
-            })
-        }
-    });
 
 
     const onSubmit=(data:VerifyUserType)=>{
@@ -57,9 +52,22 @@ export const VerificationForm = () => {
     const resendAuthCode = () => {
         timerRef.current?.restart(getTwoMinutesFromNow());
         setShowResendCode(false);
-        sendAuthCode.submit(username);
         authCodeRef.current.clear();
+        sendAuthCodeAction(mobile);
     }
+    useEffect(() => {
+        if (sendAuthCodeState && !sendAuthCodeState.isSuccess && sendAuthCodeState.error) {
+            showNotification({
+                message: sendAuthCodeState.error?.detail!,
+                type: "error"
+            })
+        } else if (sendAuthCodeState && sendAuthCodeState.isSuccess) {
+            showNotification({
+                message: "کد تایید به شماره شما ارسال شد.",
+                type: "info"
+            });
+        }
+    }, [sendAuthCodeState, showNotification]);
 
     return (
         <>

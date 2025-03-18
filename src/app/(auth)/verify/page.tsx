@@ -1,9 +1,11 @@
-
 import Link from 'next/link';
 import {VerificationForm} from "@/app/(auth)/verify/_components/verification-form";
-const Verify=async ()=>{
+
+const Verify = async ({searchParams}: { searchParams: { [key: string]: string } | string[] | undefined }) => {
+
+
     return (
-        <VerificationForm/>
+        <VerificationForm mobile={searchParams['mobile'] as string}/>
     )
 }
 

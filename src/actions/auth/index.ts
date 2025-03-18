@@ -4,6 +4,7 @@ import {OperationResultTypes} from "@/types/operation-result.types";
 import {serverActionWrapper} from "@/actions/server-action-wrapper";
 import {createData} from "@/core/http-service/http-service";
 import {SignIn} from '@/app/(auth)/signin/_types/sigin.types';
+import {SendAuthCode} from "@/app/(auth)/verify/_types/verify-user.type";
 
 export async function signInAction(FormState: OperationResultTypes<string> | null, formData: FormData) {
     const mobile = formData.get("mobile") as string;
@@ -20,5 +21,10 @@ export async function signInAction(FormState: OperationResultTypes<string> | nul
         mobile
     }))
 
+}
+
+
+export async function sendAuthCode(formState:OperationResultTypes<string> | null,mobile:string){
+    return serverActionWrapper(async ()=>await createData<SendAuthCode,string>('/send-auth-code',{mobile}));
 
 }
