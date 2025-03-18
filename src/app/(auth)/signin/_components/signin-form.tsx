@@ -6,7 +6,7 @@ import {useForm} from "react-hook-form";
 import {SingIn} from '../types/sigin.types';
 import {useRouter} from "next/navigation";
 import {useNotificationStore} from "@/stores/notification.store";
-import {useEffect} from "react";
+import {useActionState, useEffect, useTransition} from "react";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {signInSchema} from "@/app/(auth)/signin/_types/signin.schema";
 import {signInAction} from "@/actions/auth";
@@ -19,29 +19,40 @@ const SignInForm = () => {
         resolver: zodResolver(signInSchema)
     });
 
-    const [formState,action] = useFormState(signInAction, {message: ''});
+    const [formState, action] = useActionState(signInAction, {});
+    const [isPending, startTransition] = useTransition();
+
 
     const router = useRouter();
 
     const showNotification = useNotificationStore(state => state.showNotification);
 
 
-    useEffect(()=>{
-        if (formState.message){
+    useEffect(() => {
+        if (formState && !formState.isSuccess && formState.error) {
             showNotification({
-                message: formState.message,
+                message: formState.error?.detail!,
                 type: "error"
             })
+        } else if (formState && formState.isSuccess) {
+            router.push(`/verify?mobile=${getValues('mobile')}`);
+            showNotification({
+                message: "کد تایید به شماره شما ارسال شد.",
+                type: "info"
+            });
+            console.log(formState.response);
         }
-    },[formState,showNotification]);
+    }, [formState, showNotification]);
 
-    // router.push(`/verify?mobile=${getValues('mobile')}`);
 
     const onSubmit = async (data: SingIn) => {
-        const formData=new FormData();
-        formData.append("mobile",data.mobile);
-        action(formData);
-        // signIn.submit(data);
+        const formData = new FormData();
+        formData.append("mobile", data.mobile);
+        startTransition(async () => {
+           await action(formData);
+        });
+
+
     }
 
 
@@ -56,7 +67,7 @@ const SignInForm = () => {
                     errors={errors}
                 />
 
-                <Button type="submit" variant="primary">
+                <Button type="submit" variant="primary" isLoading={isPending}>
                     تایید و دریافت کد
                 </Button>
                 {
