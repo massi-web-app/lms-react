@@ -2,7 +2,7 @@
 import {Button} from '@/app/_components/button';
 import Link from 'next/link';
 import AuthCode from "@/app/_components/auth-code/auth-code";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useRef, useState, useTransition} from "react";
 import {AuthCodeRef} from "@/app/_components/auth-code/auth-code.types";
 import {Timer} from "@/app/_components/timer/timer";
 import {TimerRef} from "@/app/_components/timer/timer.types";
@@ -12,7 +12,7 @@ import {useSearchParams} from "next/navigation";
 import {useForm} from "react-hook-form";
 import {VerifyUserType} from "@/app/(auth)/verify/_types/verify-user.type";
 import {useFormState} from "react-dom";
-import {sendAuthCode} from "@/actions/auth";
+import {sendAuthCode, verify} from "@/actions/auth";
 
 
 const getTwoMinutesFromNow = () => {
@@ -21,7 +21,7 @@ const getTwoMinutesFromNow = () => {
     return time;
 }
 
-export const VerificationForm = ({mobile}:{mobile:string}) => {
+export const VerificationForm = ({mobile}: { mobile: string }) => {
 
     const [showResendCode, setShowResendCode] = useState<boolean>(false);
     const authCodeRef = useRef<AuthCodeRef>(null);
@@ -30,17 +30,26 @@ export const VerificationForm = ({mobile}:{mobile:string}) => {
     const {handleSubmit, setValue, register, formState: {isValid}} = useForm<VerifyUserType>()
     const showNotification = useNotificationStore(state => state.showNotification);
 
-    const [sendAuthCodeState,sendAuthCodeAction]=useFormState(sendAuthCode,{});
+    const [sendAuthCodeState, sendAuthCodeAction] = useFormState(sendAuthCode, {});
+
+    const [verifyState, verifyAction] = useFormState(verify, undefined);
+
+    const [verifyPendingState, startTransition] = useTransition()
+
+
 
     const params = useSearchParams();
     const username = params.get('mobile')!;
 
 
-
-    const onSubmit=(data:VerifyUserType)=>{
-        data.username=username;
-        console.log(data);
-        debugger;
+    const onSubmit = (data: VerifyUserType) => {
+        data.username = username;
+        const formData=new FormData();
+        formData.append("username",data.username);
+        formData.append("code",data.code);
+        startTransition(async ()=>{
+            verifyAction(formData);
+        })
     }
 
 
@@ -88,7 +97,7 @@ export const VerificationForm = ({mobile}:{mobile:string}) => {
                     setShowResendCode(true)
                 }} expiryTimestamp={getTwoMinutesFromNow()} showDays={false} showHours={false} showTitle={false}/>
 
-                <Button isLink={true} isDisabled={!showResendCode} onClick={resendAuthCode}>ارسال مجدد کد
+                <Button isLink={true} isDisabled={!showResendCode} isLoading={verifyPendingState} onClick={resendAuthCode}>ارسال مجدد کد
                     تایید</Button>
                 <Button type="submit" variant="primary" isDisabled={!isValid}>
                     تایید و ادامه
