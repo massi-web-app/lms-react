@@ -1,9 +1,9 @@
 import React from "react";
 import Image from 'next/image'
 import TopNavigation from "@/app/_components/header/top-navigation";
+import {HeaderUserSection} from "@/app/_components/header/header-user-section";
 
 export const Header: React.FC = () => {
-
     return (
         <header className="border-b dark:border-base-content dark:border-opacity-5">
             <div className="container flex items-center justify-between ">
@@ -14,7 +14,9 @@ export const Header: React.FC = () => {
                            height={36}/>
                 </span>
                 <TopNavigation/>
-                <span className="mr-auto">User Authentication</span>
+                <span className="mr-auto">
+                    <HeaderUserSection/>
+                </span>
             </div>
         </header>
     )

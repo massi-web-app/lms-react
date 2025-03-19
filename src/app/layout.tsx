@@ -11,6 +11,7 @@ import {Header} from "./_components/header"
 import {Footer} from "./_components/footer"
 import NextTopLoader from "nextjs-toploader";
 import {Notifications} from "@/app/_components/notificaiton/notifications";
+import {AuthProvider} from "@/providers/auth-provider";
 
 const figTree = Figtree({
     display: "swap",
@@ -63,8 +64,9 @@ export default function RootLayout({
         <html dir="rtl" className={`dark ${figTree.variable} ${yekanbakh.variable}`}>
         <body
             className="min-h-screen grid grid-rows-[80px_1fr_auto] dark:bg-base-100 dark:text-base-content">
-         <NextTopLoader showSpinner={false} color="var(--color-primary)"/>
-         <Notifications />
+        <NextTopLoader showSpinner={false} color="var(--color-primary)"/>
+        <Notifications/>
+        <AuthProvider>
             <QueryProvider>
                 <Header/>
                 <main>
@@ -72,6 +74,7 @@ export default function RootLayout({
                 </main>
                 <Footer/>
             </QueryProvider>
+        </AuthProvider>
         </body>
         </html>
     );
