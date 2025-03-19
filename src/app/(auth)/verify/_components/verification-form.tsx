@@ -99,7 +99,7 @@ export const VerificationForm = ({mobile}: { mobile: string }) => {
 
                 <Button isLink={true} isDisabled={!showResendCode} isLoading={verifyPendingState} onClick={resendAuthCode}>ارسال مجدد کد
                     تایید</Button>
-                <Button type="submit" variant="primary" isDisabled={!isValid}>
+                <Button type="submit" variant="primary" isDisabled={!isValid} isLoading={verifyPendingState}>
                     تایید و ادامه
                 </Button>
                 <div className="flex items-start gap-1 justify-center mt-auto">

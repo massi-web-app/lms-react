@@ -3,9 +3,10 @@ import {VerificationForm} from "@/app/(auth)/verify/_components/verification-for
 
 const Verify = async ({searchParams}: { searchParams: { [key: string]: string } | string[] | undefined }) => {
 
+    const params=await searchParams;
 
     return (
-        <VerificationForm mobile={searchParams['mobile'] as string}/>
+        <VerificationForm mobile={params.mobile as string}/>
     )
 }
 
