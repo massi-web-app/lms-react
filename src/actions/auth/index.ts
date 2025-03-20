@@ -10,15 +10,15 @@ import {signIn, signOut, AuthrozieError} from "@/auth";
 
 export async function signInAction(FormState: OperationResultTypes<string> | null, formData: FormData) {
     const mobile = formData.get("mobile") as string;
-    // const validatedData = signInSchema.safeParse({
-    //     mobile,
-    // });
-    //
-    // if (!validatedData.success) {
-    //     return {
-    //         message: "خطا در فرمت موبایل"
-    //     }
-    // }
+    const validatedData = signInSchema.safeParse({
+        mobile,
+    });
+
+    if (!validatedData.success) {
+        return {
+            message: "خطا در فرمت موبایل"
+        }
+    }
     return serverActionWrapper(async () => await createData<SignIn, string>(`/signin`, {
         mobile
     }))
@@ -54,6 +54,15 @@ export async function verify(prevState: OperationResultTypes<void> | undefined, 
 }
 
 
-export async function logout() {
-    await signOut();
+export async function logout(prevState:OperationResultTypes<void> | undefined) {
+
+    try{
+        await signOut({redirect:false});
+        return {
+            isSuccess:true
+        } satisfies OperationResultTypes<void>
+    }catch (error){
+        throw Error('');
+
+    }
 }
