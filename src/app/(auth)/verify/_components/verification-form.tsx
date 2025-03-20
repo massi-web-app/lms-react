@@ -2,17 +2,18 @@
 import {Button} from '@/app/_components/button';
 import Link from 'next/link';
 import AuthCode from "@/app/_components/auth-code/auth-code";
-import {useEffect, useRef, useState, useTransition} from "react";
+import {useActionState, useEffect, useRef, useState, useTransition} from "react";
 import {AuthCodeRef} from "@/app/_components/auth-code/auth-code.types";
 import {Timer} from "@/app/_components/timer/timer";
 import {TimerRef} from "@/app/_components/timer/timer.types";
 import {useSendAuthCode} from "@/app/(auth)/verify/_api/send-auth-code";
 import {useNotificationStore} from "@/stores/notification.store";
-import {useSearchParams} from "next/navigation";
+import {useRouter, useSearchParams} from "next/navigation";
 import {useForm} from "react-hook-form";
 import {VerifyUserType} from "@/app/(auth)/verify/_types/verify-user.type";
 import {useFormState} from "react-dom";
 import {sendAuthCode, verify} from "@/actions/auth";
+import {getSession} from "next-auth/react";
 
 
 const getTwoMinutesFromNow = () => {
@@ -30,12 +31,13 @@ export const VerificationForm = ({mobile}: { mobile: string }) => {
     const {handleSubmit, setValue, register, formState: {isValid}} = useForm<VerifyUserType>()
     const showNotification = useNotificationStore(state => state.showNotification);
 
-    const [sendAuthCodeState, sendAuthCodeAction] = useFormState(sendAuthCode, {});
+    const [sendAuthCodeState, sendAuthCodeAction] = useActionState(sendAuthCode, {});
 
-    const [verifyState, verifyAction] = useFormState(verify, undefined);
+    const router=useRouter();
+
+    const [verifyState, verifyAction] = useActionState(verify, undefined);
 
     const [verifyPendingState, startTransition] = useTransition()
-
 
 
     const params = useSearchParams();
@@ -44,11 +46,11 @@ export const VerificationForm = ({mobile}: { mobile: string }) => {
 
     const onSubmit = (data: VerifyUserType) => {
         data.username = username;
-        const formData=new FormData();
-        formData.append("username",data.username);
-        formData.append("code",data.code);
-        startTransition(async ()=>{
-            verifyAction(formData);
+        startTransition(async () => {
+            verifyAction({
+                username: data.username,
+                code: data.code
+            });
         })
     }
 
@@ -64,6 +66,21 @@ export const VerificationForm = ({mobile}: { mobile: string }) => {
         authCodeRef.current.clear();
         sendAuthCodeAction(mobile);
     }
+
+    useEffect(() => {
+        if (verifyState && !verifyState.isSuccess && verifyState?.error?.detail) {
+            showNotification({
+                message: verifyState.error.detail,
+                type: "error"
+            });
+        } else if (verifyState?.isSuccess) {
+            const fetchSesssion = async () => await getSession();
+            fetchSesssion();
+            router.push("/student/courses");
+        }
+    });
+
+
     useEffect(() => {
         if (sendAuthCodeState && !sendAuthCodeState.isSuccess && sendAuthCodeState.error) {
             showNotification({
@@ -97,9 +114,10 @@ export const VerificationForm = ({mobile}: { mobile: string }) => {
                     setShowResendCode(true)
                 }} expiryTimestamp={getTwoMinutesFromNow()} showDays={false} showHours={false} showTitle={false}/>
 
-                <Button isLink={true} isDisabled={!showResendCode} isLoading={verifyPendingState} onClick={resendAuthCode}>ارسال مجدد کد
+                <Button isLink={true} isDisabled={!showResendCode} isLoading={verifyPendingState}
+                        onClick={resendAuthCode}>ارسال مجدد کد
                     تایید</Button>
-                <Button type="submit" variant="primary" isDisabled={!isValid} isLoading={verifyPendingState}>
+                <Button type="submit" variant="primary" isDisabled={!isValid}>
                     تایید و ادامه
                 </Button>
                 <div className="flex items-start gap-1 justify-center mt-auto">

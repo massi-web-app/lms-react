@@ -27,7 +27,6 @@ export const TimerProgress: React.FC<TimerProgressProps> = ({
     const progress = Math.round(
         circumference - (circumference * value) / maxValue
     );
-    console.log(progress,maxValue,value);
 
     const [offset, setOffset] = useState(progress);
 

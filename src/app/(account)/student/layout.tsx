@@ -1,9 +1,12 @@
 import {ReactNode} from "react";
+import {auth} from "@/auth";
+import {redirect} from "next/navigation";
 
 
 const StudentLayout = async ({children}: {
     children: ReactNode
 }) => {
+
 
     return (
         <>

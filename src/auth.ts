@@ -7,6 +7,8 @@ import {UserInterface, UserSession, UserToken} from "@/types/user.interface";
 import {API_URL} from "@/configs/global";
 import {jwtDecode} from 'jwt-decode';
 import {JWT} from 'next-auth/jwt';
+import {CredentialsSignin} from "@auth/core/errors";
+import {Problem} from "@/types/http-errors.interface";
 
 declare module 'next-auth' {
     interface User {
@@ -24,6 +26,16 @@ declare module 'next-auth/jwt' {
         user: UserToken;
     }
 }
+
+export class AuthrozieError extends CredentialsSignin{
+    problem:Problem;
+    constructor(err:Problem) {
+        super();
+        this.problem=err;
+    }
+}
+
+
 
 export const {signIn, signOut, auth, handlers: {GET, POST}} = NextAuth({
     ...authConfig,
@@ -53,7 +65,7 @@ export const {signIn, signOut, auth, handlers: {GET, POST}} = NextAuth({
                     }
 
                 } catch (error: unknown) {
-                    throw new Error("Error");
+                    throw new AuthrozieError(error as Problem);
                 }
             }
         })
